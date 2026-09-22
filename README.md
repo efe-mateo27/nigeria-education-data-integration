@@ -1,32 +1,44 @@
-# Educational Data Integration and Analysis in Nigeria
+# Nigeria Education Data Integration and Analysis
 
-This project brings together education data from the United Nations and the World Bank to explore enrolment, adult literacy, and gender inequality in Nigeria.
+This project brings together education data from the United Nations and the World Bank to explore school enrolment, adult literacy and gender inequality in Nigeria.
 
-The work was completed as a group data engineering and analytics project. Each team member handled a different part of the data pipeline, and the cleaned datasets were eventually combined into a single PostgreSQL table for analysis.
+The project combines file-based data with API data and uses MongoDB, PostgreSQL and Python to build a small end-to-end data integration pipeline.
 
-The project covers data from 2000 to 2023, although some sources only contain observations for selected years.
+The analysis covers the period from 2000 to 2023, although some sources only contain observations for selected years.
+
+## Team Project
+
+This was a three-person group project completed by:
+
+- Efe Matthew Akpovwovwo
+- Madugba Princewill Chukwuemeka
+- Adebonojo Adesayo Oluwatosin
+
+The work in this repository was completed collaboratively, with different parts of the data collection, processing, database integration and analysis divided between the team members.
+
+For this portfolio version, the individual notebooks have been retained to show each team member's contribution, while the final analysis brings the three datasets together into one integrated educational dataset.
 
 ## Project Goals
 
-The main goals were to:
+The main goals of the project were to:
 
 - collect education data from different sources
 - work with both API and file-based data
-- store raw data in MongoDB
+- store raw API data in MongoDB
 - clean and transform the data with Python and Pandas
 - store structured datasets in PostgreSQL
 - combine the different datasets using country and year
 - analyse male and female education indicators
 - examine gender gaps in enrolment and literacy
-- create clear visualisations of the results
+- create clear visualisations from the final data
 
 ## Data Sources
 
 ### United Nations Education Data
 
-The UN dataset was used to analyse Nigerian student enrolment and gross enrolment ratios.
+The United Nations dataset was used to analyse Nigerian student enrolment and gross enrolment ratios.
 
-The cleaned data contains:
+The cleaned data includes:
 
 - primary male gross enrolment ratio
 - primary female gross enrolment ratio
@@ -36,18 +48,23 @@ The cleaned data contains:
 - upper secondary female gross enrolment ratio
 - total student enrolment by education level
 
-The UN data available for the final comparison contains selected observations for 2005, 2010, 2015 and 2021.
+The final UN comparison contains selected observations for:
+
+- 2005
+- 2010
+- 2015
+- 2021
 
 ### World Bank Enrolment Data
 
 World Bank enrolment data was collected through the World Bank API.
 
-The indicators used include:
+The indicators used were:
 
-- SE.PRM.ENRR.FE - primary gross enrolment ratio, female
-- SE.PRM.ENRR.MA - primary gross enrolment ratio, male
-- SE.SEC.ENRR.FE - secondary gross enrolment ratio, female
-- SE.SEC.ENRR.MA - secondary gross enrolment ratio, male
+- SE.PRM.ENRR.FE - Primary gross enrolment ratio, female
+- SE.PRM.ENRR.MA - Primary gross enrolment ratio, male
+- SE.SEC.ENRR.FE - Secondary gross enrolment ratio, female
+- SE.SEC.ENRR.MA - Secondary gross enrolment ratio, male
 
 The raw API records were stored in MongoDB before being flattened, transformed and written to PostgreSQL.
 
@@ -57,57 +74,53 @@ Adult literacy data was also collected from the World Bank API.
 
 The indicators used were:
 
-- SE.ADT.LITR.FE.ZS - adult female literacy rate
-- SE.ADT.LITR.MA.ZS - adult male literacy rate
+- SE.ADT.LITR.FE.ZS - Adult female literacy rate
+- SE.ADT.LITR.MA.ZS - Adult male literacy rate
 
 The literacy data is much more sparse than the enrolment data.
 
-Across 2000 to 2023, the dataset contains only a small number of reported literacy observations. Linear interpolation was therefore used to create a continuous yearly series for analysis.
+Only a small number of literacy observations are reported across the 2000 to 2023 period, so linear interpolation was used to create a continuous yearly series for analysis.
 
-The original reported values were kept separately from the interpolated values so that the distinction remains clear.
+The original reported values were kept separately from the interpolated values so that the distinction between observed and estimated values remains clear.
 
-## Team Contributions
+## Individual Contributions
 
-### Efe
+### Efe Matthew Akpovwovwo
 
-Efe worked mainly with the United Nations enrolment dataset.
+Efe worked mainly with the United Nations education dataset.
 
-This included:
+His work included:
 
-- cleaning the UN data
+- cleaning the UN dataset
 - parsing education level and sex from the indicators
-- separating percentages from total student enrolment values
-- producing a Nigeria-wide dataset
-- preparing the UN data for integration with the other sources
+- separating enrolment ratios from total student enrolment values
+- preparing Nigeria-specific records
+- reshaping the data into a wide format
+- preparing the UN data for integration with the other datasets
 - creating UN enrolment visualisations
 
-The final cleaned UN table includes both male and female enrolment ratios across primary, lower secondary and upper secondary education.
+The final cleaned UN dataset includes both male and female enrolment ratios across primary, lower secondary and upper secondary education.
 
-### Princewill
+### Madugba Princewill Chukwuemeka
 
 Princewill worked with World Bank gender enrolment data.
 
-His pipeline:
+His pipeline included:
 
-1. collected data from the World Bank API
-2. stored the raw records in MongoDB
-3. flattened the MongoDB records into a Pandas DataFrame
-4. labelled each record by education level and sex
-5. pivoted the data into male and female enrolment columns
-6. calculated gender gaps
-7. stored the cleaned result in PostgreSQL
+1. collecting enrolment data from the World Bank API
+2. storing the raw API records in MongoDB
+3. flattening the MongoDB records into a Pandas DataFrame
+4. labelling each record by education level and sex
+5. pivoting the data into male and female enrolment columns
+6. calculating primary and secondary gender gaps
+7. storing the cleaned result in PostgreSQL
+8. creating enrolment and gender-gap visualisations
 
-The final PostgreSQL table is:
+The final PostgreSQL table created from this part of the project is:
 
 wb_gender_enrolment
 
-Princewill also created visualisations for:
-
-- primary enrolment by sex
-- secondary enrolment by sex
-- primary and secondary gender enrolment gaps
-
-### Sayo
+### Adebonojo Adesayo Oluwatosin
 
 Sayo worked with World Bank adult literacy data and the final integration stage.
 
@@ -115,12 +128,13 @@ Her work included:
 
 - collecting male and female literacy data from the World Bank API
 - storing raw records in MongoDB
-- cleaning the Nigeria records
+- cleaning the Nigeria literacy records
 - identifying reported and missing observations
 - applying linear interpolation to missing yearly literacy values
 - calculating the male-female literacy gap
-- storing the literacy dataset in PostgreSQL
-- combining the literacy, World Bank enrolment and UN datasets
+- storing the cleaned literacy data in PostgreSQL
+- combining the literacy, World Bank enrolment and United Nations datasets
+- creating literacy and integrated comparison visualisations
 
 The final literacy table is:
 
@@ -134,20 +148,20 @@ education_final_merged
 
 The final stage combines all three parts of the project.
 
-UN Enrolment Data
 Efe
+United Nations enrolment data
         \
          \
           +----> Final Integrated Dataset
          /
-World Bank Enrolment
 Princewill
+World Bank enrolment data
          \
           \
-           +----> PostgreSQL: education_final_merged
+           +----> PostgreSQL
           /
-World Bank Literacy
 Sayo
+World Bank literacy data
 
 The datasets are joined using:
 
@@ -159,11 +173,15 @@ The final integrated dataset contains 24 yearly records covering 2000 to 2023.
 After cleaning and validation:
 
 - only Nigeria records are included
+- the country code is NGA
 - duplicate years = 0
-- country code = NGA
 - both male and female UN primary enrolment data are available
 - World Bank male and female enrolment data are included
-- reported and interpolated literacy values are kept separately
+- reported literacy values are kept separately from interpolated literacy values
+
+The final combined dataset is stored in PostgreSQL as:
+
+education_final_merged
 
 ## Database Pipeline
 
@@ -184,31 +202,39 @@ Cleaning and Transformation
 Structured Tables
       |
       v
-Integrated Analysis
+Final Data Integration
       |
       v
-Visualisations
+Analysis and Visualisation
 
-MongoDB was useful for storing the raw API responses before transformation.
+MongoDB was used to store raw API responses before transformation.
 
-PostgreSQL was used for the cleaned relational datasets and the final merged table.
+PostgreSQL was used for the cleaned relational datasets and the final integrated table.
 
 ## Main PostgreSQL Tables
 
 ### wb_gender_enrolment
 
-Contains World Bank enrolment data such as:
+This table contains World Bank school enrolment data including:
 
-- primary female
-- primary male
-- secondary female
-- secondary male
+- primary female enrolment
+- primary male enrolment
+- secondary female enrolment
+- secondary male enrolment
 - primary gender gap
 - secondary gender gap
 
+The gender gap is calculated as:
+
+Female enrolment - Male enrolment
+
+A negative value means male enrolment was higher.
+
+A positive value means female enrolment was higher.
+
 ### gender_literacy_final
 
-Contains:
+This table contains:
 
 - reported female literacy
 - interpolated female literacy
@@ -218,10 +244,12 @@ Contains:
 
 ### education_final_merged
 
-Contains the final combination of:
+This is the final integrated table.
 
-- World Bank literacy data
-- World Bank enrolment data
+It combines:
+
+- World Bank adult literacy data
+- World Bank school enrolment data
 - United Nations enrolment data
 
 ## Selected Visualisations
@@ -230,33 +258,49 @@ Contains the final combination of:
 
 ![UN Primary Enrolment](visualisations/efe_un_primary_enrolment_by_sex.png)
 
-This shows the difference between male and female primary gross enrolment ratios in the selected UN years.
+This chart compares male and female primary gross enrolment ratios using the selected United Nations observations.
+
+### UN Enrolment by Education Level and Sex
+
+![UN Enrolment by Level and Sex](visualisations/efe_un_enrolment_by_level_and_sex.png)
+
+This chart compares average male and female gross enrolment ratios across primary, lower secondary and upper secondary education.
+
+### UN Student Enrolment by Education Level
+
+![UN Student Enrolment](visualisations/efe_un_total_enrolment_by_level.png)
+
+This chart shows total student enrolment across primary, lower secondary and upper secondary education.
 
 ### World Bank Primary Gross Enrolment Ratio by Sex
 
 ![World Bank Primary Enrolment](visualisations/prince_primary_enrolment_by_sex_nigeria.png)
 
-This shows the World Bank primary enrolment series for male and female students.
+This chart shows the World Bank primary enrolment series for male and female students in Nigeria.
+
+### World Bank Secondary Gross Enrolment Ratio by Sex
+
+![World Bank Secondary Enrolment](visualisations/prince_secondary_enrolment_by_sex_nigeria.png)
+
+This chart shows the World Bank secondary gross enrolment ratio for male and female students.
 
 ### World Bank Gender Enrolment Gap
 
 ![Gender Enrolment Gap](visualisations/prince_gender_enrolment_gap_nigeria.png)
 
-The gender gap is calculated as:
+This chart shows how the difference between female and male enrolment changed over time at primary and secondary level.
 
-Female enrolment - Male enrolment
-
-Negative values mean male enrolment was higher, while positive values mean female enrolment was higher.
+The gap is measured in percentage points.
 
 ### Female Literacy and Primary Enrolment
 
 ![Female Integrated Analysis](visualisations/sayo_female_literacy_un_vs_world_bank_primary_enrolment.png)
 
-This visual combines all three parts of the project:
+This visual combines data from all three parts of the project:
 
 - Sayo's World Bank literacy data
-- Princewill's World Bank enrolment data
-- Efe's United Nations enrolment data
+- Princewill's World Bank primary enrolment data
+- Efe's United Nations primary enrolment data
 
 ### Male Literacy and Primary Enrolment
 
@@ -268,41 +312,57 @@ This provides the same three-source comparison for male education indicators.
 
 ![Interpolated Literacy](visualisations/sayo_interpolated_male_vs_female_literacy_2000_2023.png)
 
-Because World Bank literacy observations are sparse, the yearly series shown here contains interpolated values.
+Because the World Bank literacy data contains many missing years, this chart uses the interpolated yearly literacy series.
+
+### Interpolated Gender Literacy Gap
+
+![Interpolated Gender Literacy Gap](visualisations/sayo_interpolated_gender_literacy_gap_trend_2000_2023.png)
+
+This chart shows the difference between interpolated male and female adult literacy rates over time.
+
+### Distribution of the Interpolated Gender Literacy Gap
+
+![Gender Literacy Gap Distribution](visualisations/sayo_interpolated_gender_literacy_gap_distribution_2000_2023.png)
+
+This chart shows the distribution of the interpolated gender literacy gap between 2000 and 2023.
+
+### Literacy Missing Data
+
+![Missing Data Heatmap](visualisations/sayo_literacy_missing_data_heatmap_2000_2023.png)
+
+This heatmap shows the difference between the sparse reported literacy observations and the completed interpolated series.
 
 ## Important Data Notes
 
 ### Literacy Interpolation
 
-The World Bank literacy dataset does not report a value for every year.
+The World Bank literacy dataset does not report a literacy value for every year.
 
-Rather than treating the missing years as reported observations, the project keeps:
+Rather than presenting the missing years as original World Bank observations, the project keeps the original values and the interpolated values separately.
 
-- the original literacy value
-- an indicator showing whether the value was reported
-- a separate interpolated literacy value
-
-This makes it possible to analyse trends while still preserving the original source information.
+This makes it possible to analyse yearly trends while still showing which values came directly from the source.
 
 ### 2015 World Bank Primary Enrolment Value
 
-The World Bank primary enrolment series contains a sharp fall in 2015 for both males and females.
+The World Bank primary enrolment series contains a sharp fall in 2015 for both male and female enrolment.
 
-This initially looked like a processing error, but the values were checked directly against the World Bank API and are present in the source data.
+This initially appeared unusual, so the values were checked directly against the World Bank API.
 
-The value was therefore retained rather than manually changed or removed.
+The same values are present in the source data, so they were retained rather than manually changed or removed.
 
 ### Gross Enrolment Ratios Can Exceed 100%
 
-Some enrolment ratios in the datasets are above 100%.
+Some gross enrolment ratios in the datasets are above 100%.
 
-This is possible because the indicator is a gross enrolment ratio rather than the percentage of correctly aged children enrolled.
+This does not automatically mean the data is incorrect.
+
+Gross enrolment ratio measures total enrolment in an education level regardless of age against the population of the official age group for that level.
 
 Students who are younger or older than the official age group can therefore cause the ratio to exceed 100%.
 
 ## Project Structure
 
-APDV/
+nigeria-education-data-integration/
 │
 ├── dataset/
 │   └── efe_enrolment.csv
@@ -321,6 +381,8 @@ APDV/
 │   ├── prince_gender_enrolment_gap_nigeria.png
 │   ├── sayo_female_literacy_un_vs_world_bank_primary_enrolment.png
 │   ├── sayo_male_literacy_un_vs_world_bank_primary_enrolment.png
+│   ├── sayo_female_literacy_vs_primary_enrolment_2000_2013.png
+│   ├── sayo_male_literacy_vs_primary_enrolment_2000_2013.png
 │   ├── sayo_interpolated_male_vs_female_literacy_2000_2023.png
 │   ├── sayo_interpolated_gender_literacy_gap_trend_2000_2023.png
 │   ├── sayo_interpolated_gender_literacy_gap_distribution_2000_2023.png
@@ -369,13 +431,28 @@ MONGO_COLLECTION=world_bank_enrolment_raw
 
 The data.env file is excluded from Git through .gitignore and should not be committed to the repository.
 
-Install the required Python packages:
+Install the required Python packages with:
 
 pip install -r requirements.txt
 
 MongoDB and PostgreSQL must also be running before executing the database sections of the notebooks.
 
 The notebooks can then be run from the notebooks folder.
+
+## Requirements
+
+The main Python packages used in the project are:
+
+- pandas
+- numpy
+- requests
+- pymongo
+- SQLAlchemy
+- psycopg2-binary
+- python-dotenv
+- matplotlib
+- seaborn
+- jupyter
 
 ## What This Project Demonstrates
 
@@ -386,13 +463,14 @@ It demonstrates:
 - API data collection
 - file-based data cleaning
 - NoSQL data storage
-- relational database design
+- PostgreSQL database storage
 - ETL workflows
 - data integration from multiple sources
 - missing-data handling
+- interpolation
 - gender-gap analysis
 - data validation
 - Python visualisation
 - working with real-world data quality problems
 
-The final result is a single education dataset that brings together enrolment and literacy information from two major international data sources and allows male and female education outcomes in Nigeria to be compared over time.
+The final result is a single integrated education dataset that brings together enrolment and literacy information from the United Nations and the World Bank and makes it possible to compare male and female education indicators in Nigeria over time.
