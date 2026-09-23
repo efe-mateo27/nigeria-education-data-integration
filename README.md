@@ -2,7 +2,7 @@
 
 This project brings together education data from the United Nations and the World Bank to explore school enrolment, adult literacy and gender inequality in Nigeria.
 
-The project combines file-based data with API data and uses MongoDB, PostgreSQL and Python to build a small end-to-end data integration pipeline.
+The project combines file-based data with API data and uses MongoDB, PostgreSQL and Python to build an end-to-end data integration pipeline.
 
 The analysis covers the period from 2000 to 2023, although some sources only contain observations for selected years.
 
@@ -61,10 +61,10 @@ World Bank enrolment data was collected through the World Bank API.
 
 The indicators used were:
 
-- SE.PRM.ENRR.FE - Primary gross enrolment ratio, female
-- SE.PRM.ENRR.MA - Primary gross enrolment ratio, male
-- SE.SEC.ENRR.FE - Secondary gross enrolment ratio, female
-- SE.SEC.ENRR.MA - Secondary gross enrolment ratio, male
+- `SE.PRM.ENRR.FE` - Primary gross enrolment ratio, female
+- `SE.PRM.ENRR.MA` - Primary gross enrolment ratio, male
+- `SE.SEC.ENRR.FE` - Secondary gross enrolment ratio, female
+- `SE.SEC.ENRR.MA` - Secondary gross enrolment ratio, male
 
 The raw API records were stored in MongoDB before being flattened, transformed and written to PostgreSQL.
 
@@ -74,8 +74,8 @@ Adult literacy data was also collected from the World Bank API.
 
 The indicators used were:
 
-- SE.ADT.LITR.FE.ZS - Adult female literacy rate
-- SE.ADT.LITR.MA.ZS - Adult male literacy rate
+- `SE.ADT.LITR.FE.ZS` - Adult female literacy rate
+- `SE.ADT.LITR.MA.ZS` - Adult male literacy rate
 
 The literacy data is much more sparse than the enrolment data.
 
@@ -89,7 +89,7 @@ The original reported values were kept separately from the interpolated values s
 
 Efe worked mainly with the United Nations education dataset.
 
-His work included:
+The work included:
 
 - cleaning the UN dataset
 - parsing education level and sex from the indicators
@@ -105,7 +105,7 @@ The final cleaned UN dataset includes both male and female enrolment ratios acro
 
 Princewill worked with World Bank gender enrolment data.
 
-His pipeline included:
+The pipeline included:
 
 1. collecting enrolment data from the World Bank API
 2. storing the raw API records in MongoDB
@@ -118,13 +118,13 @@ His pipeline included:
 
 The final PostgreSQL table created from this part of the project is:
 
-wb_gender_enrolment
+`wb_gender_enrolment`
 
 ### Adebonojo Adesayo Oluwatosin
 
 Sayo worked with World Bank adult literacy data and the final integration stage.
 
-Her work included:
+The work included:
 
 - collecting male and female literacy data from the World Bank API
 - storing raw records in MongoDB
@@ -138,42 +138,46 @@ Her work included:
 
 The final literacy table is:
 
-gender_literacy_final
+`gender_literacy_final`
 
 The final combined table is:
 
-education_final_merged
+`education_final_merged`
 
 ## Data Integration
 
 The final stage combines all three parts of the project.
 
+```text
 Efe
 United Nations enrolment data
-        \
-         \
-          +----> Final Integrated Dataset
-         /
-Princewill
-World Bank enrolment data
-         \
-          \
-           +----> PostgreSQL
-          /
-Sayo
-World Bank literacy data
+              \
+               \
+                +-------------------+
+                                    |
+Princewill                           |
+World Bank enrolment data ----------+----> Final Integrated Dataset
+                                    |              |
+Sayo                                |              v
+World Bank literacy data -----------+     PostgreSQL
+                                           |
+                                           v
+                                education_final_merged
+```
 
 The datasets are joined using:
 
+```text
 country_code
 year
+```
 
 The final integrated dataset contains 24 yearly records covering 2000 to 2023.
 
 After cleaning and validation:
 
 - only Nigeria records are included
-- the country code is NGA
+- the country code is `NGA`
 - duplicate years = 0
 - both male and female UN primary enrolment data are available
 - World Bank male and female enrolment data are included
@@ -181,12 +185,13 @@ After cleaning and validation:
 
 The final combined dataset is stored in PostgreSQL as:
 
-education_final_merged
+`education_final_merged`
 
 ## Database Pipeline
 
 The project uses both MongoDB and PostgreSQL.
 
+```text
 World Bank API
       |
       v
@@ -198,7 +203,7 @@ Python / Pandas
 Cleaning and Transformation
       |
       v
- PostgreSQL
+  PostgreSQL
 Structured Tables
       |
       v
@@ -206,6 +211,7 @@ Final Data Integration
       |
       v
 Analysis and Visualisation
+```
 
 MongoDB was used to store raw API responses before transformation.
 
@@ -213,7 +219,7 @@ PostgreSQL was used for the cleaned relational datasets and the final integrated
 
 ## Main PostgreSQL Tables
 
-### wb_gender_enrolment
+### `wb_gender_enrolment`
 
 This table contains World Bank school enrolment data including:
 
@@ -226,13 +232,15 @@ This table contains World Bank school enrolment data including:
 
 The gender gap is calculated as:
 
+```text
 Female enrolment - Male enrolment
+```
 
 A negative value means male enrolment was higher.
 
 A positive value means female enrolment was higher.
 
-### gender_literacy_final
+### `gender_literacy_final`
 
 This table contains:
 
@@ -242,7 +250,7 @@ This table contains:
 - interpolated male literacy
 - gender literacy gap
 
-### education_final_merged
+### `education_final_merged`
 
 This is the final integrated table.
 
@@ -362,6 +370,7 @@ Students who are younger or older than the official age group can therefore caus
 
 ## Project Structure
 
+```text
 nigeria-education-data-integration/
 │
 ├── dataset/
@@ -391,6 +400,7 @@ nigeria-education-data-integration/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+```
 
 ## Technologies Used
 
@@ -412,10 +422,11 @@ nigeria-education-data-integration/
 
 The notebooks use environment variables for the MongoDB and PostgreSQL connections.
 
-Create a local data.env file in the root project folder.
+Create a local `data.env` file in the root project folder.
 
 Example:
 
+```text
 DATABASE_USERNAME=your_postgres_username
 DATABASE_PASSWORD=your_postgres_password
 DATABASE_HOST=localhost
@@ -428,16 +439,19 @@ MONGO_HOST=localhost
 MONGO_PORT=27017
 MONGO_DB=apdv_project
 MONGO_COLLECTION=world_bank_enrolment_raw
+```
 
-The data.env file is excluded from Git through .gitignore and should not be committed to the repository.
+The `data.env` file is excluded from Git through `.gitignore` and should not be committed to the repository.
 
 Install the required Python packages with:
 
+```bash
 pip install -r requirements.txt
+```
 
 MongoDB and PostgreSQL must also be running before executing the database sections of the notebooks.
 
-The notebooks can then be run from the notebooks folder.
+The notebooks can then be run from the `notebooks` folder.
 
 ## Requirements
 
