@@ -18,6 +18,12 @@ The work in this repository was completed collaboratively, with different parts 
 
 For this portfolio version, the individual notebooks have been retained to show each team member's contribution, while the final analysis brings the three datasets together into one integrated educational dataset.
 
+## Project Video
+
+A walkthrough of the project, data pipeline, database integration and visualisations is available on YouTube:
+
+[Watch the APDV Project Video](https://youtu.be/Pk2U3XRMTx4)
+
 ## Project Goals
 
 The main goals of the project were to:
