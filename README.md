@@ -22,7 +22,7 @@ For this portfolio version, the individual notebooks have been retained to show 
 
 A walkthrough of the project, data pipeline, database integration and visualisations is available on YouTube:
 
-[Watch the APDV Project Video](https://youtu.be/Pk2U3XRMTx4)
+[Project Video](https://youtu.be/Pk2U3XRMTx4)
 
 ## Project Goals
 
